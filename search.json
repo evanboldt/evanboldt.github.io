@@ -1,0 +1,16 @@
+[
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Sports_Blog",
+    "section": "",
+    "text": "IU Reborn: The Curt Cignetti Effect\n\n\n\nfootball\n\ncfb\n\nindiana\n\n\n\n\n\n\n\n\n\nNov 4, 2025\n\n\nEvan Boldt\n\n\n\n\n\nNo matching items"
+  },
+  {
+    "objectID": "posts/the-curt-cignetti-effect/index.html",
+    "href": "posts/the-curt-cignetti-effect/index.html",
+    "title": "IU Reborn: The Curt Cignetti Effect",
+    "section": "",
+    "text": "If you went back in time ten years ago and told the average college football fan that Indiana football would be one of the best teams in the Big Ten, nay, arguably THE best team in the country, let alone the Big Ten, you would be laughed out of whatever sports bar you had time traveled to.\n\n\nCode\nlibrary(tidyverse)\n\n\n── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──\n✔ dplyr     1.1.4     ✔ readr     2.1.5\n✔ forcats   1.0.1     ✔ stringr   1.5.2\n✔ ggplot2   4.0.0     ✔ tibble    3.3.0\n✔ lubridate 1.9.4     ✔ tidyr     1.3.1\n✔ purrr     1.1.0     \n── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──\n✖ dplyr::filter() masks stats::filter()\n✖ dplyr::lag()    masks stats::lag()\nℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors\n\n\nAnd yet, here in the year of our Lord 2025, Indiana football is ranked no. 2, is undefeated, and is perhaps one of the scariest teams in all of college football since 2019 LSU."
+  }
+]
