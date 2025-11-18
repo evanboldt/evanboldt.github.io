@@ -234,8 +234,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
 <span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>    <span class="at">x=</span><span class="st">"Season Total Point Differential"</span>, </span>
 <span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>    <span class="at">y=</span><span class="st">"Team Name"</span>, </span>
-<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>    <span class="at">title=</span><span class="st">"This 2024 Indiana squad had one of the best point differentials in the Big Ten"</span>, </span>
-<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle=</span><span class="st">"This was no doubt helped by their numerous blowout wins (Like 73-0 against Indiana State)."</span>, </span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>    <span class="at">title=</span><span class="st">"This 2024 Indiana squad had one of the best Big Ten point differentials."</span>, </span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle=</span><span class="st">"This helped by their numerous blowout wins (Like 73-0 against Indiana State)."</span>, </span>
 <span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a>    <span class="at">caption=</span><span class="st">"Source: College Football Logs 2024 | By Evan Boldt"</span></span>
 <span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a>    )</span>
 <span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a></span>
@@ -245,7 +245,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb2-36"><a href="#cb2-36" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
 <span id="cb2-37"><a href="#cb2-37" aria-hidden="true" tabindex="-1"></a>  <span class="at">x=</span><span class="st">"Season Total Point Differential"</span>, </span>
 <span id="cb2-38"><a href="#cb2-38" aria-hidden="true" tabindex="-1"></a>    <span class="at">y=</span><span class="st">"Team Name"</span>, </span>
-<span id="cb2-39"><a href="#cb2-39" aria-hidden="true" tabindex="-1"></a>    <span class="at">title=</span><span class="st">"The answer is bad. This Indiana team didn't score very much and got scored on a lot."</span>, </span>
+<span id="cb2-39"><a href="#cb2-39" aria-hidden="true" tabindex="-1"></a>    <span class="at">title=</span><span class="st">"This Indiana team couldn't score and got scored on a lot."</span>, </span>
 <span id="cb2-40"><a href="#cb2-40" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle=</span><span class="st">"This was one of the worst Power 5 teams in 2023."</span>, </span>
 <span id="cb2-41"><a href="#cb2-41" aria-hidden="true" tabindex="-1"></a>    <span class="at">caption=</span><span class="st">"Source: College Football Logs 2023 | By Evan Boldt"</span></span>
 <span id="cb2-42"><a href="#cb2-42" aria-hidden="true" tabindex="-1"></a>    )</span>
@@ -329,7 +329,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
-<p>Now, let’s take a look at the state of things 2023, a.k.a. 1 B.C. (Before Cignetti). How were they at moving/stopping the ball?</p>
+<p>Now, let’s take a look at the state of things 2023. How were they at moving/stopping the ball?</p>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
@@ -383,7 +383,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <p>At this point, you’re probably thinking “Evan, we get it, Indiana was really bad before Cignetti. What is your point?”</p>
 <p>My point is that the real difference between IU of old and IU of the modern day can be attributed primarily to how Cignetti’s team executes on both offense and defense. This can be quantified by a little stat called Success Rate.</p>
-<p>On offense, success rate is found by dividing the number of successful plays by the total number of plays. A play on offense is considered successful if the offense gains a certain percentage of yards needed for a first down. So, an offensive success would be at least 40%-50% of yards needed on first down, 60% on second down, and 100% on a third or fourth down. What is defensive success rate? The inverse, or total offensive failures divided by total plays.</p>
+<p>On offense, success rate is found by dividing the number of successful plays by the total number of plays. A play on offense is considered successful if the offense gains a certain percentage of yards needed for a first down. So, an offensive success would be at least 40%-50% of yards needed on first down, 60% on second down, and 100% on a third or fourth down. What is defensive success rate? The inverse, measured in opposing offensive success rate.</p>
 <p>Now with the long-winded explanation out of the way, what was 2023 Indiana’s offense and defensive success rate?</p>
 <div class="cell">
 <details class="code-fold">
@@ -402,46 +402,47 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>iuAdv24<span class="ot">&lt;-</span>BigAdv24<span class="sc">|&gt;</span></span>
 <span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(team <span class="sc">==</span> <span class="st">"Indiana"</span>)</span>
 <span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>BigAdv23<span class="sc">|&gt;</span></span>
-<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>()<span class="sc">|&gt;</span></span>
-<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">offense23 =</span> <span class="fu">mean</span>(off_success_rate), <span class="at">defense23 =</span> <span class="fu">mean</span>(def_success_rate))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>()<span class="sc">+</span></span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data=</span>BigAdv23, <span class="fu">aes</span>(<span class="at">x=</span>off_success_rate, <span class="at">y=</span>def_success_rate), <span class="at">color=</span><span class="st">"grey"</span>)<span class="sc">+</span></span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data=</span>iuAdv23, <span class="fu">aes</span>(<span class="at">x=</span>off_success_rate, <span class="at">y=</span>def_success_rate), <span class="at">color=</span><span class="st">"#990000"</span>)<span class="sc">+</span></span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="fl">0.4339536</span>)<span class="sc">+</span></span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="fl">0.4052588</span>)<span class="sc">+</span></span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text_repel</span>(<span class="at">data=</span>BigAdv23, <span class="fu">aes</span>(<span class="at">x=</span>off_success_rate, <span class="at">y=</span>def_success_rate, <span class="at">label =</span> team))<span class="sc">+</span></span>
+<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()<span class="sc">+</span></span>
+<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a>    <span class="at">x=</span><span class="st">"Offensive Success Rate (by percentage)"</span>, </span>
+<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a>    <span class="at">y=</span><span class="st">"Defensive Success Rate (by percentage)"</span>, </span>
+<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a>    <span class="at">title=</span><span class="st">"2023 Indiana was not very efficient on offense."</span>, </span>
+<span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle=</span><span class="st">"Their defensive success rate was not much better."</span>, </span>
+<span id="cb6-27"><a href="#cb6-27" aria-hidden="true" tabindex="-1"></a>    <span class="at">caption=</span><span class="st">"Source: cfbfastR | By Evan Boldt"</span></span>
+<span id="cb6-28"><a href="#cb6-28" aria-hidden="true" tabindex="-1"></a>    )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 1 × 2
-  offense23 defense23
-      &lt;dbl&gt;     &lt;dbl&gt;
-1     0.434     0.405</code></pre>
-</div>
-<details class="code-fold">
-<summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>BigAdv24<span class="sc">|&gt;</span></span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>()<span class="sc">|&gt;</span></span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">offense24 =</span> <span class="fu">mean</span>(off_success_rate), <span class="at">defense24 =</span> <span class="fu">mean</span>(def_success_rate))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</details>
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 1 × 2
-  offense24 defense24
-      &lt;dbl&gt;     &lt;dbl&gt;
-1     0.441     0.415</code></pre>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
 </div>
 </div>
+</div>
+<p>Now let’s compare that with 2024’s Indiana.</p>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>()<span class="sc">+</span></span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data=</span>BigAdv23, <span class="fu">aes</span>(<span class="at">x=</span>off_success_rate, <span class="at">y=</span>def_success_rate), <span class="at">color=</span><span class="st">"grey"</span>)<span class="sc">+</span></span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data=</span>iuAdv23, <span class="fu">aes</span>(<span class="at">x=</span>off_success_rate, <span class="at">y=</span>def_success_rate), <span class="at">color=</span><span class="st">"#990000"</span>)<span class="sc">+</span></span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="fl">0.4339536</span>)<span class="sc">+</span></span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="fl">0.4052588</span>)<span class="sc">+</span></span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text_repel</span>(<span class="at">data=</span>BigAdv23, <span class="fu">aes</span>(<span class="at">x=</span>off_success_rate, <span class="at">y=</span>def_success_rate, <span class="at">label =</span> team))<span class="sc">+</span></span>
-<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()<span class="sc">+</span></span>
-<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
-<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">x=</span><span class="st">"Offensive Success Rate (by percentage)"</span>, </span>
-<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">y=</span><span class="st">"Defensive Success Rate (by percentage)"</span>, </span>
-<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">title=</span><span class="st">"2023 Indiana was not very efficient on offense."</span>, </span>
-<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle=</span><span class="st">"Their defensive success rate was surprisingly high. Alas, it couldn't help their poor offense."</span>, </span>
-<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">caption=</span><span class="st">"Source: cfbfastR | By Evan Boldt"</span></span>
-<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>    )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>()<span class="sc">+</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data=</span>BigAdv24, <span class="fu">aes</span>(<span class="at">x=</span>off_success_rate, <span class="at">y=</span>def_success_rate), <span class="at">color=</span><span class="st">"grey"</span>)<span class="sc">+</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data=</span>iuAdv24, <span class="fu">aes</span>(<span class="at">x=</span>off_success_rate, <span class="at">y=</span>def_success_rate), <span class="at">color=</span><span class="st">"#990000"</span>)<span class="sc">+</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="fl">0.4411546</span>)<span class="sc">+</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="fl">0.4152041</span>)<span class="sc">+</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text_repel</span>(<span class="at">data=</span>BigAdv24, <span class="fu">aes</span>(<span class="at">x=</span>off_success_rate, <span class="at">y=</span>def_success_rate, <span class="at">label =</span> team))<span class="sc">+</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()<span class="sc">+</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">x=</span><span class="st">"Offensive Success Rate (by percentage)"</span>, </span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">y=</span><span class="st">"Defensive Success Rate (by percentage)"</span>, </span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">title=</span><span class="st">"This Indiana team was the most efficient team in the entire Big Ten on offense."</span>, </span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle=</span><span class="st">"Their defensive success rate was also pretty great (Shutouts help)."</span>, </span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">caption=</span><span class="st">"Source: cfbfastR | By Evan Boldt"</span></span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>    )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output-display">
 <div>
@@ -451,35 +452,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
-<p>Now let’s compare that with 2024’s Indiana.</p>
-<div class="cell">
-<details class="code-fold">
-<summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>()<span class="sc">+</span></span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data=</span>BigAdv24, <span class="fu">aes</span>(<span class="at">x=</span>off_success_rate, <span class="at">y=</span>def_success_rate), <span class="at">color=</span><span class="st">"grey"</span>)<span class="sc">+</span></span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data=</span>iuAdv24, <span class="fu">aes</span>(<span class="at">x=</span>off_success_rate, <span class="at">y=</span>def_success_rate), <span class="at">color=</span><span class="st">"#990000"</span>)<span class="sc">+</span></span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="fl">0.4411546</span>)<span class="sc">+</span></span>
-<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="fl">0.4152041</span>)<span class="sc">+</span></span>
-<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text_repel</span>(<span class="at">data=</span>BigAdv24, <span class="fu">aes</span>(<span class="at">x=</span>off_success_rate, <span class="at">y=</span>def_success_rate, <span class="at">label =</span> team))<span class="sc">+</span></span>
-<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()<span class="sc">+</span></span>
-<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
-<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">x=</span><span class="st">"Offensive Success Rate (by percentage)"</span>, </span>
-<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">y=</span><span class="st">"Defensive Success Rate (by percentage)"</span>, </span>
-<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">title=</span><span class="st">"This Indiana team was the most efficient team in the entire Big Ten on offense"</span>, </span>
-<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle=</span><span class="st">"Their defensive success rate, however was a little lacking."</span>, </span>
-<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">caption=</span><span class="st">"Source: cfbfastR | By Evan Boldt"</span></span>
-<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a>    )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</details>
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="index_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
-</div>
-</div>
-<p>Ultimately, defense is what cost that 2024 IU squad in the long run, being unable stop the offenses of the highest echelons of college football. But their newfound offensive prowess was and still remains the main narrative surrounding Curt Cignetti’s team andtheir unprecedented improvement from 2023.</p>
-<p>Now, in 2025, he’s hungry for more, and we’ll have to see if that high-powered offense can finally be paired with a rock solid defense.</p>
+<p>So in addition to that high-flying offense, Indiana’s defense has experienced a renaissance of its own as well.</p>
+<p>Ultimately, that 2024 IU team was unable to compete with the highest echelons of college football, with their explosive offense being quelled by top defenses and their surprisingly staunch defense not being able to keep up. But their newfound offensive prowess was and still remains the main narrative surrounding Curt Cignetti’s team and their unprecedented improvement from 2023.</p>
+<p>Now, in 2025, he’s hungry for more, and we’ll have to see if that high-powered offense and rock-solid defense can finally get it done.</p>
 
 
 
