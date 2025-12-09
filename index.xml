@@ -10,7 +10,903 @@
 <atom:link href="https://your-website-url.example.com/index.xml" rel="self" type="application/rss+xml"/>
 <description>A place to examine the wild and whimsy in sport</description>
 <generator>quarto-1.8.25</generator>
-<lastBuildDate>Tue, 04 Nov 2025 06:00:00 GMT</lastBuildDate>
+<lastBuildDate>Tue, 09 Dec 2025 06:00:00 GMT</lastBuildDate>
+<item>
+  <title>The Rhule Era Redzone</title>
+  <dc:creator>Evan Boldt</dc:creator>
+  <link>https://your-website-url.example.com/posts/the-rhule-era-redzone/</link>
+  <description><![CDATA[ 
+
+
+
+
+
+<p>One of the prevailing narratives around the Nebraska football program since Matt Rhule took the reins in 2023 is that the offense, for whatever reason, just can’t seem to score the ball. Obviously that isn’t true, because otherwise the Cornhuskers wouldn’t win a single game, but narratives persist for a reason. So why does this one?</p>
+<p>To begin with, let’s have a look at the Rhule Era’s offensive success in the Big Ten to see if this narrative has any merit. We’re going to determine this by how many drives the Big Red offense was given to work compared to whether or not they scored on those drives.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">library</span>(tidyverse)</span>
+<span id="cb1-2"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">library</span>(cfbfastR)</span>
+<span id="cb1-3"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">library</span>(ggrepel)</span>
+<span id="cb1-4"></span>
+<span id="cb1-5">drives23 <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">cfbd_drives</span>(</span>
+<span id="cb1-6">  <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2023</span>,</span>
+<span id="cb1-7">  <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">season_type =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"regular"</span></span>
+<span id="cb1-8">) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span>  </span>
+<span id="cb1-9">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">mutate</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">season=</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2023</span>)</span>
+<span id="cb1-10"></span>
+<span id="cb1-11">drives24 <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">cfbd_drives</span>(</span>
+<span id="cb1-12">  <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2024</span>,</span>
+<span id="cb1-13">  <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">season_type =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"regular"</span></span>
+<span id="cb1-14">) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span>  </span>
+<span id="cb1-15">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">mutate</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">season=</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2024</span>)</span>
+<span id="cb1-16"></span>
+<span id="cb1-17">drives25 <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">cfbd_drives</span>(</span>
+<span id="cb1-18">  <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2025</span>,</span>
+<span id="cb1-19">  <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">season_type =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"regular"</span></span>
+<span id="cb1-20">) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span>  </span>
+<span id="cb1-21">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">mutate</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">season=</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2025</span>)</span>
+<span id="cb1-22"></span>
+<span id="cb1-23">drives <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">bind_rows</span>(drives23, drives24, drives25)<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<span id="cb1-24">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">mutate</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">team_season =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">paste</span>(offense, season))</span>
+<span id="cb1-25"></span>
+<span id="cb1-26">bigtotaldrives <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> drives<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<span id="cb1-27">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">filter</span>(offense_conference <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">==</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Big Ten"</span>)<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<span id="cb1-28">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">group_by</span>(offense)<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<span id="cb1-29">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">summarise</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">totaldrives =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">n</span>())</span>
+<span id="cb1-30"></span>
+<span id="cb1-31">bigtotalscores<span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span>drives<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<span id="cb1-32">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">filter</span>(offense_conference <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">==</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Big Ten"</span>)<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<span id="cb1-33">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">group_by</span>(offense)<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<span id="cb1-34">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">filter</span>(scoring <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">==</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"TRUE"</span>)<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<span id="cb1-35">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">summarise</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">totalscoringdrives =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">n</span>())</span>
+<span id="cb1-36"></span>
+<span id="cb1-37">drivestacked <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> bigtotaldrives <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">inner_join</span>(bigtotalscores) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<span id="cb1-38">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">pivot_longer</span>(</span>
+<span id="cb1-39">    <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">cols =</span> <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-</span>offense, </span>
+<span id="cb1-40">    <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">names_to =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"type"</span>,</span>
+<span id="cb1-41">    <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">values_to =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"drives"</span></span>
+<span id="cb1-42">  )</span>
+<span id="cb1-43">  </span>
+<span id="cb1-44"></span>
+<span id="cb1-45">drivestackedtwo <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> drivestacked <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<span id="cb1-46">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">mutate</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">type =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">gsub</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"totaldrives"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Total Drives"</span>, type, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">fixed=</span><span class="cn" style="color: #8f5902;
+background-color: null;
+font-style: inherit;">TRUE</span>)) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span> </span>
+<span id="cb1-47">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">mutate</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">type =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">gsub</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"totalscoringdrives"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Total Scoring Drives"</span>, type, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">fixed=</span><span class="cn" style="color: #8f5902;
+background-color: null;
+font-style: inherit;">TRUE</span>))</span>
+<span id="cb1-48">  </span>
+<span id="cb1-49"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">ggplot</span>()<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span id="cb1-50">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">geom_bar</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">data =</span> drivestackedtwo, <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">aes</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">x=</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">reorder</span>(offense, drives), <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">weight=</span>drives, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">fill=</span>type)) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span id="cb1-51">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">coord_flip</span>()<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span id="cb1-52">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">scale_fill_manual</span>(</span>
+<span id="cb1-53">    <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">values =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">c</span>(</span>
+<span id="cb1-54">      <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Total Drives"</span> <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">=</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"lightgrey"</span>,</span>
+<span id="cb1-55">      <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Total Scoring Drives"</span> <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">=</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"red"</span></span>
+<span id="cb1-56">    )</span>
+<span id="cb1-57">  )<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span id="cb1-58">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">theme_minimal</span>()<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span id="cb1-59">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">labs</span>(</span>
+<span id="cb1-60">    <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">x=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Total Offensive Drives"</span>,</span>
+<span id="cb1-61">    <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">y=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Team"</span>,</span>
+<span id="cb1-62">    <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">title=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Over the three years Matt Rhule has had, Nebraska has one of</span></span>
+<span id="cb1-63"><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">the lowest totals of drives, and one of the lowest frequencies of </span></span>
+<span id="cb1-64"><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">scoring on those drives."</span>,</span>
+<span id="cb1-65">    <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">subtitle =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"The Huskers are in the company of some really bad programs from the past three</span></span>
+<span id="cb1-66"><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">seasons, namely Purdue and Michigan State.</span></span>
+<span id="cb1-67"><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">*Note: Only two seasons of play are represented here by the former Pac-12 schools. </span></span>
+<span id="cb1-68"><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">(And Oregon scored more in those two seasons than Nebraska did in</span></span>
+<span id="cb1-69"><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">three!)"</span>,</span>
+<span id="cb1-70">    <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">caption =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Source: cfbfastR | By Evan Boldt"</span></span>
+<span id="cb1-71">  )</span></code></pre></div></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="https://your-website-url.example.com/posts/the-rhule-era-redzone/index_files/figure-html/unnamed-chunk-1-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>So, at first glance the narrative seems correct.</p>
+<p>Is there at least any improvement for Nebraska’s offense since Rhule came to town? Let’s see.</p>
+<p>We’re going to quantify that with scoring success rate, or what percentage of drives for the given season ended in a score.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1">YearlySuccess<span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span>drives<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<span id="cb2-2">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">filter</span>(offense_conference <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">==</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Big Ten"</span>)<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<span id="cb2-3">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">group_by</span>(offense)<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<span id="cb2-4">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">mutate</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">GamesPlayed=</span> <span class="cn" style="color: #8f5902;
+background-color: null;
+font-style: inherit;">TRUE</span> <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span> <span class="cn" style="color: #8f5902;
+background-color: null;
+font-style: inherit;">FALSE</span>) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span> </span>
+<span id="cb2-5">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">group_by</span>(offense, season) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span>  </span>
+<span id="cb2-6">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">summarize</span>(</span>
+<span id="cb2-7">  <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">Score=</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">sum</span>(<span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">ifelse</span>(scoring<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">==</span><span class="cn" style="color: #8f5902;
+background-color: null;
+font-style: inherit;">TRUE</span>, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span>)),</span>
+<span id="cb2-8">  <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">Total=</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">sum</span>(GamesPlayed)) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span>  </span>
+<span id="cb2-9">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">mutate</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">SuccessRate=</span>Score<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">/</span>Total<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">*</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">100</span>) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span> </span>
+<span id="cb2-10">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">filter</span>(Total<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">&gt;</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">5</span>) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span> </span>
+<span id="cb2-11">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">arrange</span>(<span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">desc</span>(SuccessRate))</span>
+<span id="cb2-12"></span>
+<span id="cb2-13">YearlyBigSuccess <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> YearlySuccess<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<span id="cb2-14">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">filter</span>(offense <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">==</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Nebraska"</span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|</span>offense<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">==</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Michigan"</span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|</span>offense<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">==</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Illinois"</span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|</span>offense<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">==</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Indiana"</span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|</span>offense<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">==</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"MichiganState"</span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|</span>offense<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">==</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Northwestern"</span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|</span>offense<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">==</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Purdue"</span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|</span>offense<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">==</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Minnesota"</span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|</span>offense<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">==</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Wisconsin"</span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|</span>offense<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">==</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Ohio State"</span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|</span>offense<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">==</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Maryland"</span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|</span>offense<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">==</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Rutgers"</span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|</span>offense<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">==</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Penn State"</span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|</span>offense<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">==</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Iowa"</span>)</span>
+<span id="cb2-15"></span>
+<span id="cb2-16">NUYearlySuccess <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> YearlyBigSuccess<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<span id="cb2-17">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">filter</span>(offense <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">==</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Nebraska"</span>)</span>
+<span id="cb2-18"></span>
+<span id="cb2-19"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">ggplot</span>()<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span id="cb2-20">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">geom_line</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">data =</span> YearlyBigSuccess, <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">aes</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">x=</span>season, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">y=</span>SuccessRate, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">group=</span>offense))<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span id="cb2-21">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">geom_line</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">data =</span> NUYearlySuccess, <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">aes</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">x=</span>season, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">y=</span>SuccessRate, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">group=</span>offense), <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">color=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"red"</span>)<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span id="cb2-22">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">facet_wrap</span>(<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">~</span>offense)<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span id="cb2-23">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">theme_minimal</span>()<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span id="cb2-24">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">labs</span>(</span>
+<span id="cb2-25">    <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">x=</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Year by Year"</span>,</span>
+<span id="cb2-26">    <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">y=</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Scoring Success Rate (By Percentage)"</span>,</span>
+<span id="cb2-27">    <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">title =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Nebraska was not good on offense to start Rhule's tenure. </span></span>
+<span id="cb2-28"><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">One of the worst in the Big Ten, in fact."</span>,</span>
+<span id="cb2-29">    <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">subtitle =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"However, the program has shown steady improvement year-by-year. </span></span>
+<span id="cb2-30"><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">Iowa, another historically bad offense, has shown even better improvement.</span></span>
+<span id="cb2-31"><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">*Note: This data excludes the four former Pac-12 teams due to the sample size </span></span>
+<span id="cb2-32"><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">not being large enough to show a trend."</span>,</span>
+<span id="cb2-33">    <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">caption =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Source: cfbfastR | By Evan Boldt"</span></span>
+<span id="cb2-34">  )</span></code></pre></div></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="https://your-website-url.example.com/posts/the-rhule-era-redzone/index_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Okay, so clearly the Rhule offense has been trending up each year. Which is good, right? The offense is scoring more often, that must mean the team is good now, correct? Well, there’s another part of this “Nebraska can’t score” narrative that I want to take a look at: Nebraska is terrible at finishing drives in the redzone. Nebraska can’t score the ever-elusive redzone touchdown. This is arguably one the most important parts of this narrative, and where I believe a lot of the stigma comes from.</p>
+<p>People say, “Nebraska can move the ball well enough, but when they get into the redzone, everything falls apart.”</p>
+<p>So let’s see if the people are right.</p>
+<p>To figure this out, I’ve come up with two stats: Redzone Stalls and Redzone Successes. A Redzone Stall is any drive that ends in the redzone without a touchdown. Interception, field goal, turnover on downs, you name it. A Redzone Success is anything that’s not that. So, a touchdown, or the best case scenario for any given drive. Now, this data includes all touchdowns scored by Nebraska over the three Matt Rhule years because, technically speaking, those drives passed through the redzone at some point.</p>
+<p>In any case, the main goal of the graph is to see how many Husker drives stalled in the redzone, compared to how many touchdowns they were able to score, so let’s have a look.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1">bigredzonestalls <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> drives <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<span id="cb3-2">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">filter</span>(offense_conference <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">==</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Big Ten"</span>)<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<span id="cb3-3">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">group_by</span>(team_season)<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<span id="cb3-4">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">filter</span>(end_yards_to_goal <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">&lt;=</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">20</span> <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">&amp;</span> end_yards_to_goal<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">&gt;</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span>)<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<span id="cb3-5">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">summarise</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">totalredzonestalls =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">n</span>())</span>
+<span id="cb3-6"></span>
+<span id="cb3-7">bigredzonesuccesses <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> drives<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<span id="cb3-8">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">filter</span>(offense_conference <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">==</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Big Ten"</span>)<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<span id="cb3-9">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">group_by</span>(team_season)<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<span id="cb3-10">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">filter</span>(drive_result <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">==</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"TD"</span>)<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<span id="cb3-11">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">summarise</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">totaltouchdowns =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">n</span>())</span>
+<span id="cb3-12"></span>
+<span id="cb3-13">bigredzoneoutcomes <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> bigredzonestalls<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span> </span>
+<span id="cb3-14">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">inner_join</span>(bigredzonesuccesses)</span>
+<span id="cb3-15"></span>
+<span id="cb3-16">nebredzoneoutcomes <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span>bigredzoneoutcomes<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<span id="cb3-17">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">filter</span>(<span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">grepl</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Nebraska"</span>, team_season))</span>
+<span id="cb3-18"></span>
+<span id="cb3-19"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">ggplot</span>()<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span id="cb3-20">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">geom_point</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">data=</span>bigredzoneoutcomes, <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">aes</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">x=</span>totaltouchdowns, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">y=</span>totalredzonestalls))<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span id="cb3-21">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">geom_hline</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">yintercept =</span> <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">21.3</span>)<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span id="cb3-22">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">geom_vline</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">xintercept =</span> <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">37.56</span>)<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span id="cb3-23">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">geom_point</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">data=</span>nebredzoneoutcomes, <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">aes</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">x=</span>totaltouchdowns, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">y=</span>totalredzonestalls), <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">color=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"red"</span>)<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span id="cb3-24">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">geom_text_repel</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">data=</span>nebredzoneoutcomes, <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">aes</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">x=</span>totaltouchdowns, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">y=</span>totalredzonestalls, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">label=</span>team_season))<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span id="cb3-25">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">theme_minimal</span>()<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span id="cb3-26">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">labs</span>(</span>
+<span id="cb3-27">    <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">x=</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Redzone Successes"</span>,</span>
+<span id="cb3-28">    <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">y=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Redzone Stalls"</span>,</span>
+<span id="cb3-29">    <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">title =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"In the Matt Rhule Era, Nebraska has had roughlyten more successes than</span></span>
+<span id="cb3-30"><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">stalls in each year."</span>,</span>
+<span id="cb3-31">    <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">subtitle =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Every year the offense has gotten more drive opportunities and has scored more, but </span></span>
+<span id="cb3-32"><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">the proportion of stalls to successes remains the same."</span>,</span>
+<span id="cb3-33">    <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">caption =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Source: cfbfastR | By Evan Boldt"</span></span>
+<span id="cb3-34">  )</span></code></pre></div></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="https://your-website-url.example.com/posts/the-rhule-era-redzone/index_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>So what this means is that while there has been marked improvement in total drive opportunities for the Big Red, and in turn more touchdowns scored, the same can be said for drives stalled in the redzone. For reference, that little dot there at the very bottom right is the 2024 Indiana offense that took college football by storm.</p>
+<p>In short, Nebraska does score the ball. But they stall out in the redzone nearly as much as they score, which isn’t conducive to the championship-winning ways that so many Husker fans want to see a return to. They’re conducive to mediocrity. Which, in year three of the Matt Rhule experience, is what Nebraska is: mediocre. Will that change in year four or five? Only time will tell.</p>
+<p>But what is certain is that the narrative of the Huskers being unable to score when they need to has at least a little merit, and it’s up to Matt Rhule and Co.&nbsp;to defeat that narrative in year four.</p>
+
+
+
+ ]]></description>
+  <category>football</category>
+  <category>cfb</category>
+  <category>nebraska</category>
+  <guid>https://your-website-url.example.com/posts/the-rhule-era-redzone/</guid>
+  <pubDate>Tue, 09 Dec 2025 06:00:00 GMT</pubDate>
+</item>
 <item>
   <title>IU Reborn: The Curt Cignetti Effect</title>
   <dc:creator>Evan Boldt</dc:creator>

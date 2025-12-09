@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>https://your-website-url.example.com/Project2Data.html</loc>
+    <lastmod>2025-12-03T22:16:55.149Z</lastmod>
+  </url>
+  <url>
     <loc>https://your-website-url.example.com/posts/the-curt-cignetti-effect/index.html</loc>
     <lastmod>2025-11-18T18:41:21.903Z</lastmod>
   </url>
@@ -15,5 +19,9 @@
   <url>
     <loc>https://your-website-url.example.com/index.html</loc>
     <lastmod>2025-11-05T00:36:00.794Z</lastmod>
+  </url>
+  <url>
+    <loc>https://your-website-url.example.com/posts/the-rhule-era-redzone/index.html</loc>
+    <lastmod>2025-12-09T23:41:56.437Z</lastmod>
   </url>
 </urlset>
